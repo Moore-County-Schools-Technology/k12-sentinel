@@ -52,10 +52,11 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 
 ### 1. Get Access
 
-K-12 Sentinel is distributed as private Docker images. Contact us for access:
+K-12 Sentinel is distributed as private Docker images. To request access:
 
-- **GitHub:** Request access to the container packages at [Moore-County-Schools-Technology](https://github.com/Moore-County-Schools-Technology)
-- Once granted, you'll receive a read-only token to pull the images
+1. [Open an access request issue](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new?template=access-request.yml&title=%5BAccess+Request%5D+Your+District+Name) on this repository
+2. Include your district name, contact email, and GitHub username
+3. Once approved, you'll be granted read access to the container images
 
 ### 2. Login to the Container Registry
 
@@ -278,9 +279,8 @@ docker compose up -d
 
 ## Support
 
-For access requests, bug reports, or questions:
-
-- **GitHub Issues:** [Moore-County-Schools-Technology/k12-sentinel](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues)
+- **Request Access:** [Open an access request](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new?template=access-request.yml&title=%5BAccess+Request%5D+Your+District+Name)
+- **Bug Reports & Features:** [Open an issue](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new)
 
 ---
 

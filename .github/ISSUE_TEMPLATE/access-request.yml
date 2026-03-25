@@ -1,0 +1,75 @@
+name: Access Request
+description: Request access to K-12 Sentinel Docker images for your school district
+title: "[Access Request] "
+labels: ["access-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in K-12 Sentinel! Please fill out the information below and we'll get you set up.
+
+  - type: input
+    id: district
+    attributes:
+      label: School District Name
+      placeholder: e.g., Wake County Public Schools
+    validations:
+      required: true
+
+  - type: input
+    id: state
+    attributes:
+      label: State
+      placeholder: e.g., North Carolina
+    validations:
+      required: true
+
+  - type: input
+    id: contact-name
+    attributes:
+      label: Contact Name
+      placeholder: Your full name
+    validations:
+      required: true
+
+  - type: input
+    id: contact-email
+    attributes:
+      label: Contact Email
+      placeholder: you@yourdistrict.org
+    validations:
+      required: true
+
+  - type: input
+    id: role
+    attributes:
+      label: Role / Title
+      placeholder: e.g., Director of Technology, IT Security Specialist
+    validations:
+      required: true
+
+  - type: input
+    id: github-username
+    attributes:
+      label: GitHub Username
+      description: We'll grant this account read access to the container images.
+      placeholder: e.g., jsmith-tech
+    validations:
+      required: true
+
+  - type: input
+    id: workspace-size
+    attributes:
+      label: Approximate Google Workspace User Count
+      placeholder: e.g., 5000 students + 500 staff
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Anything else you'd like us to know (deployment timeline, specific needs, etc.)
+      placeholder: Optional
+    validations:
+      required: false

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Bug Report or Feature Request
+    url: https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new
+    about: Report a bug or request a feature
