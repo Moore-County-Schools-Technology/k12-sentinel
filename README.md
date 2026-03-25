@@ -42,7 +42,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 
 ## Prerequisites
 
-- **Google Workspace** Education Plus (or Business Plus) with Admin SDK access
+- **Google Workspace** for Education (any edition, including Fundamentals/free) with Admin SDK access
 - **Docker** and **Docker Compose** installed on your server
 - A domain name with DNS pointing to your server
 - *(Optional)* MaxMind GeoLite2 database for local IP geolocation
@@ -270,6 +270,32 @@ Uses **AND logic** with role-based thresholds:
 |------|---------------------------|
 | **Staff** | 100+ unique recipients AND 200+ messages per hour |
 | **Student** | 25+ unique recipients AND 50+ messages per hour |
+
+---
+
+## Google Workspace Edition Compatibility
+
+K-12 Sentinel works with **all Google Workspace for Education editions**, including the free tier. All features are available regardless of which edition your district uses.
+
+| Feature | Fundamentals (Free) | Standard | Plus |
+|---------|:-------------------:|:--------:|:----:|
+| Login event monitoring & risk scoring | Yes | Yes | Yes |
+| Geo-fence & impossible travel detection | Yes | Yes | Yes |
+| Automated alerts (Slack, Teams, Chat, email) | Yes | Yes | Yes |
+| Gmail investigation (sent emails, filters, forwarding) | Yes | Yes | Yes |
+| Drive sharing investigation | Yes | Yes | Yes |
+| Mass send detection | Yes | Yes | Yes |
+| Remediation (password reset, suspend, sign out) | Yes | Yes | Yes |
+| Admin Settings page | Yes | Yes | Yes |
+| Domain-wide delegation | Yes | Yes | Yes |
+
+**How it works:** K-12 Sentinel uses the Admin SDK Reports API, Directory API, and Gmail API — all available on every edition via domain-wide delegation with a service account. The paid editions (Standard/Plus) add Google's own security investigation UI and BigQuery log exports, but the underlying APIs that K-12 Sentinel depends on are not edition-gated.
+
+**What the paid editions add (not related to K-12 Sentinel):**
+- Security Investigation Tool in Admin Console (Standard, Plus)
+- BigQuery audit log exports (Standard, Plus)
+- Log export to Google Security Operations (Standard, Plus)
+- Advanced endpoint management (Plus)
 
 ---
 
