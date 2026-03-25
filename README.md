@@ -1,5 +1,7 @@
 # K-12 Sentinel
 
+> **Initial NCET Beta Release**
+
 **Self-hosted security monitoring for Google Workspace in K-12 school districts.**
 
 K-12 Sentinel monitors Google Workspace login events in real time, detects compromised accounts through geographic anomaly detection, and automatically investigates suspicious activity across Gmail, Drive, and account settings. Built for K-12 IT administrators who need visibility into security threats across their organization.
@@ -326,6 +328,7 @@ docker compose up -d
 
 ## Support
 
+- **Contact:** Jonathan Vargas — [jvargas@ncmcs.org](mailto:jvargas@ncmcs.org) (Moore County Schools)
 - **Request Access:** [Open an access request](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new?template=access-request.yml&title=%5BAccess+Request%5D+Your+District+Name)
 - **Bug Reports & Features:** [Open an issue](https://github.com/Moore-County-Schools-Technology/k12-sentinel/issues/new)
 
