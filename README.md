@@ -16,6 +16,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Org Unit Filtering** -- Filter all dashboard data by Google Workspace organizational unit hierarchy
 - **Automated Investigations** -- Auto-triggered forensic analysis of Gmail activity, Drive shares, account changes, and bouncebacks on high-risk events
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
+- **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
 - **Remediation Actions** -- Password reset, account suspension, 2FA enforcement, and session termination from the dashboard
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
 - **Trend Analytics** -- Daily risk trends, top risky countries/users, and risk distribution charts
@@ -167,6 +168,15 @@ Visit your configured domain or `http://your-server-ip` to access the dashboard.
 | `ALLOWED_EMAILS` | No | Comma-separated emails allowed to log in |
 | `BASE_URL` | No | Public URL (e.g., `https://sentinel.yourdistrict.org`) |
 
+### Admin Authorization
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ADMIN_EMAILS` | No | Comma-separated emails with admin access (can change Settings). If empty, all authenticated users are regular users. |
+| `ADMIN_GROUP` | No | Google Group email (e.g., `sentinel-admins@yourdistrict.org`). Members of this group get admin access. Checked via Directory API. |
+
+Admin users see a "Settings" gear icon in the navigation bar and can configure all detection thresholds through the UI. Non-admin users can view the dashboard and investigations but cannot change settings.
+
 ### District Configuration
 
 | Variable | Required | Description |
@@ -226,6 +236,22 @@ Each login event receives a risk score from 0-100 based on three checks:
 - **Suspicious Patterns** (0-55 pts) -- VPN/proxy, datacenter ISPs, off-hours, new locations, compromised passwords
 
 **Risk Levels:** High (>=60) | Medium (30-59) | Low (<30)
+
+All thresholds above are defaults and can be changed by admins through the **Settings** page in the UI.
+
+## Settings Page
+
+Admin users can tune all detection thresholds through the Settings page (gear icon in the nav bar). Changes take effect within 5 minutes — no container restart needed.
+
+**Configurable values:**
+
+| Section | Settings |
+|---------|----------|
+| **Risk Scoring** | Alert threshold (70), auto-investigation threshold (60), high risk cutoff (60), medium risk cutoff (30) |
+| **Mass Send Detection** | Staff recipients/hr (100), staff messages/hr (200), student recipients/hr (25), student messages/hr (50) |
+| **Investigation Findings** | External/internal email thresholds per role, bounceback thresholds per role |
+
+A "Reset to Defaults" button restores all values to the built-in defaults. If no settings have been configured, the system uses defaults out of the box.
 
 ## Alerts
 
