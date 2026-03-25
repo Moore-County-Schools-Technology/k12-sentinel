@@ -12,8 +12,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Geographic Risk Scoring** -- Scores each login 0-100 based on geo-fence violations, impossible travel, VPN/proxy usage, datacenter ISP detection, and behavioral patterns
 - **Interactive Dashboard** -- Dark-themed SOC-style UI with a Leaflet map, scrollable risk feed, and hourly timeline chart
 - **User Detail Drilldown** -- Per-user travel pattern map, login history, risk summary, and quick remediation actions
-- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email when high-risk events are detected
-- **Org Unit Filtering** -- Filter all dashboard data by Google Workspace organizational unit hierarchy
+- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email when high-risk events are detected. Alerts include device type, OS, authentication method, and subject lines for mass-send events
 - **Automated Investigations** -- Auto-triggered forensic analysis of Gmail activity, Drive shares, account changes, and bouncebacks on high-risk events
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
@@ -275,7 +274,9 @@ Uses **AND logic** with role-based thresholds:
 
 ## Google Workspace Edition Compatibility
 
-K-12 Sentinel works with **all Google Workspace for Education editions**, including the free tier. All features are available regardless of which edition your district uses.
+K-12 Sentinel works with **all Google Workspace for Education editions**, including the free tier. Core features are available on every edition, while **Education Plus** unlocks additional login telemetry that significantly improves alert quality.
+
+### Core Features (all editions)
 
 | Feature | Fundamentals (Free) | Standard | Plus |
 |---------|:-------------------:|:--------:|:----:|
@@ -284,18 +285,29 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | Automated alerts (Slack, Teams, Chat, email) | Yes | Yes | Yes |
 | Gmail investigation (sent emails, filters, forwarding) | Yes | Yes | Yes |
 | Drive sharing investigation | Yes | Yes | Yes |
-| Mass send detection | Yes | Yes | Yes |
+| Mass send detection with subject lines & attachment flags | Yes | Yes | Yes |
 | Remediation (password reset, suspend, sign out) | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
-| Domain-wide delegation | Yes | Yes | Yes |
 
-**How it works:** K-12 Sentinel uses the Admin SDK Reports API, Directory API, and Gmail API — all available on every edition via domain-wide delegation with a service account. The paid editions (Standard/Plus) add Google's own security investigation UI and BigQuery log exports, but the underlying APIs that K-12 Sentinel depends on are not edition-gated.
+### Enhanced Features (Education Plus)
 
-**What the paid editions add (not related to K-12 Sentinel):**
-- Security Investigation Tool in Admin Console (Standard, Plus)
-- BigQuery audit log exports (Standard, Plus)
-- Log export to Google Security Operations (Standard, Plus)
-- Advanced endpoint management (Plus)
+With **Education Plus** (or Business Plus), login audit events include additional parameters that K-12 Sentinel automatically captures and surfaces in alerts and the dashboard:
+
+| Feature | What it adds |
+|---------|-------------|
+| **Device Type** | Shows the device used for login (e.g., Chromebook, Windows PC, iPhone, Android) in alerts and login history |
+| **Device OS Version** | Operating system and version (e.g., Chrome OS 119, Windows 11, iOS 17.4) |
+| **Authentication Method** | How the user authenticated -- password only, Google prompt, security key, backup code. Critical for identifying logins without 2FA |
+| **Google Suspicious Flag** | Google's own determination of whether the login was suspicious, surfaced directly in alerts |
+
+These fields appear in:
+- Google Chat, Slack, Teams, and email alert notifications
+- The user detail panel's login history
+- Risk flag breakdowns
+
+**Why this matters:** When a student logs in from Nigeria, knowing they used "password only" (no 2FA) on an unknown Windows device tells you far more than just the location. Education Plus makes the difference between "suspicious login" and "almost certainly compromised."
+
+Without Education Plus, these fields will simply be blank -- all other features work identically.
 
 ---
 
