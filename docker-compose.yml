@@ -1,0 +1,44 @@
+services:
+  backend:
+    image: ghcr.io/moore-county-schools-technology/sentinel-backend:latest
+    container_name: sentinel-backend
+    volumes:
+      - ./data:/data
+      - ./service-account.json:/app/service-account.json:ro
+      - ./GeoLite2-City.mmdb:/app/GeoLite2-City.mmdb:ro
+    env_file: .env
+    environment:
+      - DB_PATH=/data/sentinel.db
+      - GOOGLE_SERVICE_ACCOUNT_KEY_PATH=/app/service-account.json
+      - PORT=3001
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - internal
+
+  frontend:
+    image: ghcr.io/moore-county-schools-technology/sentinel-frontend:latest
+    container_name: sentinel-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - internal
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sentinel.rule=Host(`${SENTINEL_HOST:-sentinel.localhost}`)"
+      - "traefik.http.routers.sentinel.entrypoints=websecure"
+      - "traefik.http.routers.sentinel.tls.certresolver=letsencrypt"
+      - "traefik.http.services.sentinel.loadbalancer.server.port=80"
+
+networks:
+  internal:
+  proxy:
+    external: true
