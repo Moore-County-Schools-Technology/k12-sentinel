@@ -274,40 +274,23 @@ Uses **AND logic** with role-based thresholds:
 
 ## Google Workspace Edition Compatibility
 
-K-12 Sentinel works with **all Google Workspace for Education editions**, including the free tier. Core features are available on every edition, while **Education Plus** unlocks additional login telemetry that significantly improves alert quality.
-
-### Core Features (all editions)
+K-12 Sentinel works with **all Google Workspace for Education editions**, including the free Fundamentals tier. All features are available on every edition -- no upgrade required.
 
 | Feature | Fundamentals (Free) | Standard | Plus |
 |---------|:-------------------:|:--------:|:----:|
 | Login event monitoring & risk scoring | Yes | Yes | Yes |
 | Geo-fence & impossible travel detection | Yes | Yes | Yes |
 | Automated alerts (Slack, Teams, Chat, email) | Yes | Yes | Yes |
+| Authentication method in alerts (password, security key, etc.) | Yes | Yes | Yes |
+| Google suspicious login flag in alerts | Yes | Yes | Yes |
+| Device type & OS in alerts (when available) | Yes | Yes | Yes |
 | Gmail investigation (sent emails, filters, forwarding) | Yes | Yes | Yes |
 | Drive sharing investigation | Yes | Yes | Yes |
 | Mass send detection with subject lines & attachment flags | Yes | Yes | Yes |
 | Remediation (password reset, suspend, sign out) | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
 
-### Enhanced Features (Education Plus)
-
-With **Education Plus** (or Business Plus), login audit events include additional parameters that K-12 Sentinel automatically captures and surfaces in alerts and the dashboard:
-
-| Feature | What it adds |
-|---------|-------------|
-| **Device Type** | Shows the device used for login (e.g., Chromebook, Windows PC, iPhone, Android) in alerts and login history |
-| **Device OS Version** | Operating system and version (e.g., Chrome OS 119, Windows 11, iOS 17.4) |
-| **Authentication Method** | How the user authenticated -- password only, Google prompt, security key, backup code. Critical for identifying logins without 2FA |
-| **Google Suspicious Flag** | Google's own determination of whether the login was suspicious, surfaced directly in alerts |
-
-These fields appear in:
-- Google Chat, Slack, Teams, and email alert notifications
-- The user detail panel's login history
-- Risk flag breakdowns
-
-**Why this matters:** When a student logs in from Nigeria, knowing they used "password only" (no 2FA) on an unknown Windows device tells you far more than just the location. Education Plus makes the difference between "suspicious login" and "almost certainly compromised."
-
-Without Education Plus, these fields will simply be blank -- all other features work identically.
+> **Note on device info:** Device type and OS version are populated by Google primarily for mobile and tablet logins. Desktop browser logins may not include this information regardless of edition. When unavailable, these fields are simply blank -- all other alert details still appear.
 
 ---
 
