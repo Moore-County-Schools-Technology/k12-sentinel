@@ -336,4 +336,4 @@ docker compose up -d
 
 ## License
 
-Proprietary. Contact Moore County Schools Technology for licensing information.
+Proprietary. Contact Jonathan Vargas ([jvargas@ncmcs.org](mailto:jvargas@ncmcs.org)) at Moore County Schools for licensing information.
