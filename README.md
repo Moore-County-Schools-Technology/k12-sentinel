@@ -28,6 +28,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Individual Remediation Actions** -- 9 granular actions available independently: revoke sessions, reset password, suspend/unsuspend account, remove forwarding, delete filters, disable POP/IMAP, revoke OAuth, revoke app passwords
 - **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail. Investigation Center shows resolution status badges, filter by status, and dashboard counts.
 - **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
+- **Mass Email Content Scanning** -- When a mass send is detected, samples message bodies and runs hybrid phishing classification: heuristic analysis (URL reputation, domain spoofing, urgency patterns, credential harvesting) with optional local LLM escalation via any OpenAI-compatible endpoint. Alerts arrive pre-classified as phishing, spam, legitimate bulk, or inconclusive.
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
@@ -291,6 +292,19 @@ Uses **AND logic** with role-based thresholds:
 |------|---------------------------|
 | **Staff** | 100+ unique recipients AND 200+ messages per hour |
 | **Student** | 25+ unique recipients AND 50+ messages per hour |
+
+When triggered, the system **samples message bodies** and runs hybrid content classification:
+1. **Heuristic analysis** (always) -- phishing domains, URL mismatches, urgency language, credential harvesting, risky attachments
+2. **LLM escalation** (optional) -- if heuristics are inconclusive and `LLM_ENDPOINT` is configured, sends samples to a local model for classification
+
+Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `content unclear`. No LLM required -- heuristics alone are useful.
+
+To enable LLM escalation, add to your `.env`:
+```bash
+LLM_ENDPOINT=http://localhost:11434/v1/chat/completions  # Ollama example
+LLM_MODEL=llama3.1:8b                                     # default
+# LLM_API_KEY=                                            # if endpoint requires auth
+```
 
 ---
 
