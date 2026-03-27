@@ -201,7 +201,7 @@ The setup wizard handles all configuration for you. Here's what each step sets u
 | **District Info** | Your email domains (staff vs student), district location for the geo-fence, timezone |
 | **Google Workspace** | Service account credentials (encrypted at rest), domain-wide delegation, super admin email |
 | **Dashboard Access** | Who can log in (email allowlist or Google OAuth), who gets admin access to Settings |
-| **Alert Channels** | Where security alerts go — Google Chat, Slack, Teams, and/or email (SMTP) |
+| **Alert Channels** | Where security alerts go — Google Chat, Slack, Teams, and/or email (SMTP). Optional AI phishing classification with bundled Ollama. |
 | **Networking** | How users reach the dashboard — automatic HTTPS (Caddy), existing reverse proxy (Traefik), or HTTP for testing |
 
 **After deployment, you can tune detection thresholds** (risk scoring, mass send limits, investigation triggers) through the **Settings page** in the dashboard — no config files or restarts needed.
@@ -306,12 +306,14 @@ When triggered, the system **samples message bodies** and runs hybrid content cl
 
 Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `content unclear`. No LLM required -- heuristics alone are useful.
 
-To enable LLM escalation, add to your `.env`:
-```bash
-LLM_ENDPOINT=http://localhost:11434/v1/chat/completions  # Ollama example
-LLM_MODEL=llama3.1:8b                                     # default
-# LLM_API_KEY=                                            # if endpoint requires auth
-```
+**Enabling AI classification:** The setup wizard has an optional "AI Phishing Classification" section on the Alert Channels page. If you enable it:
+- The wizard checks if Ollama is already running on your server
+- If not, it offers to **bundle Ollama as a Docker container** in your deployment — no extra installation needed
+- After `docker compose up -d`, just run one command to download the model:
+  ```bash
+  docker compose exec sentinel-ollama ollama pull llama3.1:8b
+  ```
+- You can also point to any existing OpenAI-compatible endpoint instead
 
 ---
 
