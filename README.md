@@ -26,7 +26,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Admin Audit Integration** -- Track who changed recovery emails, added delegates, enrolled/unenrolled 2FA, suspended accounts, and granted admin privileges — with actor identification
 - **One-Click Containment** -- Single button executes the full containment sequence: revoke sessions, reset password, remove forwarding, delete suspicious filters, disable POP/IMAP, revoke third-party app access. Step-by-step progress shown in real time.
 - **Individual Remediation Actions** -- 9 granular actions available independently: revoke sessions, reset password, suspend/unsuspend account, remove forwarding, delete filters, disable POP/IMAP, revoke OAuth, revoke app passwords
-- **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail.
+- **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail. Investigation Center shows resolution status badges, filter by status, and dashboard counts.
 - **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
