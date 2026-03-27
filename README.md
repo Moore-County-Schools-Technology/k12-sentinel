@@ -14,8 +14,16 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Geographic Risk Scoring** -- Scores each login 0-100 based on geo-fence violations, impossible travel, VPN/proxy usage, datacenter ISP detection, and behavioral patterns
 - **Interactive Dashboard** -- Dark-themed SOC-style UI with a Leaflet map, scrollable risk feed, and hourly timeline chart
 - **User Detail Drilldown** -- Per-user travel pattern map, login history, risk summary, and quick remediation actions
-- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email when high-risk events are detected. Alerts include device type, OS, authentication method, and subject lines for mass-send events
+- **Correlated Threat Engine** -- International logins no longer spam your alerts. High-risk events trigger silent investigations first — Google Chat only fires when post-login evidence (forwarding rules, mass email, recovery changes) corroborates the threat
+- **Country Whitelist & Geo Learning** -- District-level country whitelist (admin-configurable) plus per-user learning that auto-whitelists countries after 3+ logins in 90 days
+- **Brute Force Detection** -- Immediate alerts for 3+ failed logins from different IPs followed by a successful login from a new IP
+- **High-Confidence Signal Alerts** -- Instant alerts for Google-confirmed compromises and Google's `is_suspicious` flag — no investigation delay
+- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email. Alerts include device type, OS, authentication method, and subject lines for mass-send events
 - **Automated Investigations** -- Auto-triggered forensic analysis of Gmail activity, Drive shares, account changes, and bouncebacks on high-risk events
+- **Investigation Timeline** -- Unified chronological view stitching login events, findings, email activity, admin audit events, and remediation actions into a single narrative with category filtering
+- **Inline Email Analysis** -- See top subject lines, recipient breakdown (internal vs external), hourly volume chart, and sample recipients directly in investigations — no need to visit Google Admin Console
+- **30-Day Sign-In History** -- Expanded login history with device, OS, auth method, and concurrent session detection (logins from different locations within 5 minutes)
+- **Admin Audit Integration** -- Track who changed recovery emails, added delegates, enrolled/unenrolled 2FA, suspended accounts, and granted admin privileges — with actor identification
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
 - **Remediation Actions** -- Password reset, account suspension, 2FA enforcement, and session termination from the dashboard
@@ -249,6 +257,7 @@ Admin users can tune all detection thresholds through the Settings page (gear ic
 | Section | Settings |
 |---------|----------|
 | **Risk Scoring** | Alert threshold (70), auto-investigation threshold (60), high risk cutoff (60), medium risk cutoff (30) |
+| **Country Whitelist** | District-level whitelisted countries (default: US). Logins from whitelisted countries skip the 80-point international penalty. Per-user geo learning auto-whitelists after 3+ logins in 90 days. |
 | **Mass Send Detection** | Staff recipients/hr (100), staff messages/hr (200), student recipients/hr (25), student messages/hr (50) |
 | **Investigation Findings** | External/internal email thresholds per role, bounceback thresholds per role |
 
@@ -256,12 +265,20 @@ A "Reset to Defaults" button restores all values to the built-in defaults. If no
 
 ## Alerts
 
-Alerts fire when:
-- Risk score >= 70
-- Login from a new country
-- Watchlisted user logs in
-- Mass email detected (role-based thresholds)
-- Critical investigation findings (forwarding, suspicious filters, Drive exfiltration)
+Alerts use a **correlated threat engine** — most high-risk logins trigger a silent investigation first, and notifications only fire when post-login evidence confirms the threat.
+
+**Immediate alerts** (no delay):
+- Brute force: 3+ failed logins from different IPs then success from new IP
+- Google-confirmed compromise (`account_disabled_password_leak`)
+- Google suspicious flag (`is_suspicious`)
+- Watchlisted user login
+
+**Corroborated alerts** (investigate first, alert if evidence found):
+- International login from unknown country + post-login evidence (forwarding, mass email, recovery changes, etc.)
+
+**Dashboard-only** (no push notification):
+- International login with no post-login evidence
+- Logins from whitelisted or per-user learned countries
 
 ### Mass Send Detection
 
@@ -290,6 +307,12 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | Drive sharing investigation | Yes | Yes | Yes |
 | Mass send detection with subject lines & attachment flags | Yes | Yes | Yes |
 | Remediation (password reset, suspend, sign out) | Yes | Yes | Yes |
+| Correlated threat engine (investigate-then-alert) | Yes | Yes | Yes |
+| Country whitelist & per-user geo learning | Yes | Yes | Yes |
+| Investigation timeline (unified chronological view) | Yes | Yes | Yes |
+| Inline email analysis (subjects, recipients, hourly chart) | Yes | Yes | Yes |
+| 30-day sign-in history with concurrent session detection | Yes | Yes | Yes |
+| Admin audit with actor identification | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
 
 > **Note on device info:** Device type and OS version are populated by Google primarily for mobile and tablet logins. Desktop browser logins may not include this information regardless of edition. When unavailable, these fields are simply blank -- all other alert details still appear.
