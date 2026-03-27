@@ -1,4 +1,4 @@
-# K-12 Sentinel
+# K-12 Sentinel (Free just for NC Districts)
 
 > **Initial NCET Beta Release**
 
