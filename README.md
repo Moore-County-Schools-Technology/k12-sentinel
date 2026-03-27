@@ -28,7 +28,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Individual Remediation Actions** -- 9 granular actions available independently: revoke sessions, reset password, suspend/unsuspend account, remove forwarding, delete filters, disable POP/IMAP, revoke OAuth, revoke app passwords
 - **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail. Investigation Center shows resolution status badges, filter by status, and dashboard counts.
 - **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
-- **Mass Email Content Scanning** -- When a mass send is detected, samples message bodies and runs hybrid phishing classification: heuristic analysis (URL reputation, domain spoofing, urgency patterns, credential harvesting) with optional local LLM escalation via any OpenAI-compatible endpoint. Alerts arrive pre-classified as phishing, spam, legitimate bulk, or inconclusive.
+- **Mass Email Content Scanning** -- When a mass send is detected, samples message bodies and runs hybrid phishing classification: heuristic analysis (URL reputation, domain spoofing, urgency patterns, credential harvesting) with optional local LLM escalation. Alerts arrive pre-classified as phishing, spam, legitimate bulk, or inconclusive. **All AI processing happens on your server** — no email content ever leaves your network.
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
@@ -306,7 +306,9 @@ When triggered, the system **samples message bodies** and runs hybrid content cl
 
 Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `content unclear`. No LLM required -- heuristics alone are useful.
 
-**Enabling AI classification:** The setup wizard has an optional "AI Phishing Classification" section on the Alert Channels page. If you enable it:
+**AI classification runs 100% on your server.** Email content is analyzed by a local AI model — no student data, email bodies, or alert details are ever sent to OpenAI, Google, Anthropic, or any external service. The model runs on your hardware, in your network, behind your firewall. There is zero cloud AI dependency.
+
+**Enabling it:** The setup wizard has an optional "AI Phishing Classification" section on the Alert Channels page. If you enable it:
 - The wizard checks if Ollama is already running on your server
 - If not, it offers to **bundle Ollama as a Docker container** in your deployment — no extra installation needed
 - After `docker compose up -d`, just run one command to download the model:
