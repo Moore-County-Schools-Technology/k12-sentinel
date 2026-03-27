@@ -78,14 +78,41 @@ K-12 Sentinel is distributed as private Docker images. To request access:
 echo "YOUR_ACCESS_TOKEN" | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin
 ```
 
-### 3. Download Deployment Files
+### 3. Run the Setup Wizard
+
+The setup wizard is a browser-based tool that walks you through the entire configuration — no `.env` file editing required. It guides you through Google Workspace setup with direct links to the right pages, validates every input, lets you test alert webhooks, and generates all configuration files automatically.
 
 ```bash
-git clone https://github.com/Moore-County-Schools-Technology/k12-sentinel.git
-cd k12-sentinel
+mkdir k12-sentinel && cd k12-sentinel
+docker run -it --rm -p 3000:3000 -v "$(pwd)":/config ghcr.io/moore-county-schools-technology/sentinel-setup
 ```
 
-### 4. Google Admin Console Setup
+Open **http://your-server-ip:3000** in your browser and follow the 7-step wizard:
+
+1. **Welcome** — overview and checklist of what you'll need
+2. **District Information** — your domain names, location, timezone
+3. **Google Workspace** — guided setup with direct links to GCP console (the wizard tells you exactly where to click)
+4. **Dashboard Access** — who can log in and view the dashboard
+5. **Alert Channels** — configure Google Chat, Slack, Teams, or email alerts (with test buttons)
+6. **Networking** — choose between automatic HTTPS (Caddy), existing reverse proxy (Traefik), or HTTP-only for testing
+7. **Review & Generate** — verify everything and generate your configuration
+
+The wizard creates all the files you need: `.env`, `docker-compose.yml`, and an encrypted copy of your service account credentials.
+
+### 4. Deploy
+
+```bash
+docker compose up -d
+```
+
+That's it. Visit your configured domain (e.g., `https://sentinel.yourdistrict.org`).
+
+> **Note:** The first sync backfills 180 days of historical login data — this may take several minutes. Login events from Google can take up to 30 minutes to appear in the API. This is normal.
+
+<details>
+<summary><strong>Manual Setup (Advanced)</strong> — click to expand if you prefer to configure manually</summary>
+
+### Manual Google Admin Console Setup
 
 #### Create a GCP Project
 
@@ -122,14 +149,17 @@ Navigate to **APIs & Services > Library** and enable:
 https://www.googleapis.com/auth/admin.reports.audit.readonly,
 https://www.googleapis.com/auth/admin.directory.user.readonly,
 https://www.googleapis.com/auth/admin.directory.orgunit.readonly,
-https://www.googleapis.com/auth/gmail.readonly
+https://www.googleapis.com/auth/gmail.readonly,
+https://www.googleapis.com/auth/gmail.settings.basic,
+https://www.googleapis.com/auth/gmail.settings.sharing,
+https://www.googleapis.com/auth/admin.directory.user.security
 ```
 
 6. Click **Authorize**
 
 > **Important:** The `GOOGLE_ADMIN_EMAIL` in your `.env` must be a **super admin** account.
 
-### 5. Configure
+#### Configure .env
 
 ```bash
 cp .env.example .env
@@ -138,29 +168,24 @@ cp .env.example .env
 Edit `.env` with your district's values. At minimum, set:
 
 ```bash
-# Required
 GOOGLE_ADMIN_EMAIL=admin@yourdistrict.org
 SESSION_SECRET=generate-a-random-string-here
 ALLOWED_EMAILS=youradmin@yourdistrict.org
-
-# Your district's email domains
 STAFF_DOMAINS=yourdistrict.org
 STUDENT_DOMAINS=yourdistrict.net
-
-# Your district's location (for geo-fence)
 DISTRICT_LAT=your-latitude
 DISTRICT_LNG=your-longitude
-
-# At least one alert channel
 ALERT_CHANNELS=gchat
 ALERT_GCHAT_WEBHOOK_URL=https://chat.googleapis.com/v1/spaces/...
 ```
 
-### 6. Deploy
+#### Deploy
 
 ```bash
 docker compose up -d
 ```
+
+</details>
 
 Visit your configured domain or `http://your-server-ip` to access the dashboard.
 
