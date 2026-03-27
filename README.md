@@ -173,8 +173,9 @@ SESSION_SECRET=generate-a-random-string-here
 ALLOWED_EMAILS=youradmin@yourdistrict.org
 STAFF_DOMAINS=yourdistrict.org
 STUDENT_DOMAINS=yourdistrict.net
-DISTRICT_LAT=your-latitude
-DISTRICT_LNG=your-longitude
+# Your district office location (use Google Maps to find coordinates)
+DISTRICT_LAT=35.24
+DISTRICT_LNG=-79.77
 ALERT_CHANNELS=gchat
 ALERT_GCHAT_WEBHOOK_URL=https://chat.googleapis.com/v1/spaces/...
 ```
@@ -221,8 +222,8 @@ Admin users see a "Settings" gear icon in the navigation bar and can configure a
 |----------|----------|-------------|
 | `STAFF_DOMAINS` | Yes | Comma-separated staff email domains (e.g., `district.org,district.support`) |
 | `STUDENT_DOMAINS` | Yes | Comma-separated student email domains (e.g., `students.district.org`) |
-| `DISTRICT_LAT` | No | District center latitude (default: `35.24`) |
-| `DISTRICT_LNG` | No | District center longitude (default: `-79.77`) |
+| `DISTRICT_LAT` | No | District center latitude — auto-set by setup wizard from address lookup (default: `35.24`) |
+| `DISTRICT_LNG` | No | District center longitude — auto-set by setup wizard from address lookup (default: `-79.77`) |
 | `DISTRICT_RADIUS_MILES` | No | Geo-fence radius in miles (default: `100`) |
 | `DISTRICT_TIMEZONE` | No | Local timezone (default: `America/New_York`) |
 
