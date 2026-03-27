@@ -1,6 +1,6 @@
-# K-12 Sentinel (Free just for NC Districts)
+# K-12 Sentinel
 
-> **Initial NCET Beta Release**
+> **Initial NCET Beta Release (Free just for NC Districts)**
 
 **Self-hosted security monitoring for Google Workspace in K-12 school districts.**
 
