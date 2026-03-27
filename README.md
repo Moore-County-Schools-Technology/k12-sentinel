@@ -24,9 +24,12 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Inline Email Analysis** -- See top subject lines, recipient breakdown (internal vs external), hourly volume chart, and sample recipients directly in investigations — no need to visit Google Admin Console
 - **30-Day Sign-In History** -- Expanded login history with device, OS, auth method, and concurrent session detection (logins from different locations within 5 minutes)
 - **Admin Audit Integration** -- Track who changed recovery emails, added delegates, enrolled/unenrolled 2FA, suspended accounts, and granted admin privileges — with actor identification
+- **One-Click Containment** -- Single button executes the full containment sequence: revoke sessions, reset password, remove forwarding, delete suspicious filters, disable POP/IMAP, revoke third-party app access. Step-by-step progress shown in real time.
+- **Individual Remediation Actions** -- 9 granular actions available independently: revoke sessions, reset password, suspend/unsuspend account, remove forwarding, delete filters, disable POP/IMAP, revoke OAuth, revoke app passwords
+- **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail.
+- **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
 - **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
-- **Remediation Actions** -- Password reset, account suspension, 2FA enforcement, and session termination from the dashboard
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
 - **Trend Analytics** -- Daily risk trends, top risky countries/users, and risk distribution charts
 - **Bulk Actions** -- CSV export, report generation, and email list copy for incident response
@@ -313,6 +316,9 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | Inline email analysis (subjects, recipients, hourly chart) | Yes | Yes | Yes |
 | 30-day sign-in history with concurrent session detection | Yes | Yes | Yes |
 | Admin audit with actor identification | Yes | Yes | Yes |
+| One-click account containment (9 actions) | Yes | Yes | Yes |
+| Case management (5 resolution statuses + notes) | Yes | Yes | Yes |
+| Alert follow-up notifications | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
 
 > **Note on device info:** Device type and OS version are populated by Google primarily for mobile and tablet logins. Desktop browser logins may not include this information regardless of edition. When unavailable, these fields are simply blank -- all other alert details still appear.
