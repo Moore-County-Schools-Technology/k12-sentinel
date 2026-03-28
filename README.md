@@ -34,7 +34,6 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Email Attachment Scanning** -- Scans attachment contents (PDFs, Word docs, spreadsheets, images with OCR) for DLP violations and phishing links. All processing happens on your server.
 - **Phishing Email Quarantine** -- When a phishing mass send is detected, admins can click one button to trash those messages from every recipient's inbox across the district. Admin-approved, not automatic — you stay in control.
 - **OAuth App Governance** -- See every third-party app granted access to your district's Google accounts. Risk scoring flags apps with broad permissions (Gmail read, Drive write). New "Apps" page to review, approve, or block apps across the domain. Scans automatically every 6 hours.
-- **Student Safety Signals** -- Detects self-harm, cyberbullying, and violence threats in student email. Optional local LLM improves accuracy. Alerts route to counselors, IT, or both — configurable per district. Privacy-first: no email content stored, all processing on your server, feature defaults to OFF until you enable it.
 - **Daily/Weekly Digest Reports** -- Scheduled summary emails with trend data: high-risk events, investigations, mass email activity, top risky users, new country logins, remediation actions. Delivered as chat message + full HTML email. Configure frequency and recipients in Settings.
 - **Automated Incident Reports (PDF)** -- One-click PDF generation from any investigation. Professional reports with executive summary, timeline, findings, remediation log — auto-generated and emailed when cases are resolved or escalated. Ready for insurance claims, legal, and board reporting.
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
@@ -283,7 +282,6 @@ Admin users can tune all detection thresholds through the Settings page (gear ic
 | **Data Loss Prevention** | Toggle built-in patterns (SSN, credit card, DOB, GPA), add custom regex rules, set sensitivity thresholds, test patterns with sample text |
 | **OAuth App Governance** | Enable/disable, scan frequency (1-24 hours), manage known educational apps list |
 | **Digest Reports** | Frequency (daily/weekly/both/off), send time, day of week, additional email recipients |
-| **Student Safety Signals** | Master enable/disable (default: off), category toggles (self-harm, bullying, violence), sample size, alert destination (IT/counselor/both), counselor webhook/email |
 
 A "Reset to Defaults" button restores all values to the built-in defaults. If no settings have been configured, the system uses defaults out of the box.
 
@@ -363,7 +361,6 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | Drive content scanning (DLP on shared documents) | Yes | Yes | Yes |
 | Email attachment scanning (PDF, Office, images with OCR) | Yes | Yes | Yes |
 | OAuth app governance (risk scoring, approve/block) | Yes | Yes | Yes |
-| Student safety signals (self-harm, bullying, violence) | Yes | Yes | Yes |
 | Daily/weekly digest reports (chat + HTML email) | Yes | Yes | Yes |
 | Automated PDF incident reports | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
