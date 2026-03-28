@@ -2,6 +2,8 @@
 
 > **Initial NCET Beta Release (Free just for NC Districts)**
 
+> **BETA DISCLAIMER:** K-12 Sentinel is in active beta development. While we strive for accuracy, all alerts, risk scores, AI classifications, DLP detections, and safety assessments should be independently verified before taking action. This software is provided as-is with no warranty. Do not rely solely on K-12 Sentinel for security or compliance decisions — always confirm findings through your Google Admin Console and established district procedures.
+
 **Self-hosted security monitoring for Google Workspace in K-12 school districts.**
 
 K-12 Sentinel monitors Google Workspace login events in real time, detects compromised accounts through geographic anomaly detection, and automatically investigates suspicious activity across Gmail, Drive, and account settings. Built for K-12 IT administrators who need visibility into security threats across their organization.
