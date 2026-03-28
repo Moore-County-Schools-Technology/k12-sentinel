@@ -29,7 +29,10 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail. Investigation Center shows resolution status badges, filter by status, and dashboard counts.
 - **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
 - **Mass Email Content Scanning** -- When a mass send is detected, samples message bodies and runs hybrid phishing classification: heuristic analysis (URL reputation, domain spoofing, urgency patterns, credential harvesting) with optional local LLM escalation. Alerts arrive pre-classified as phishing, spam, legitimate bulk, or inconclusive. **All AI processing happens on your server** — no email content ever leaves your network.
-- **Data Loss Prevention (DLP)** -- Scans outbound email for SSNs, credit card numbers, dates of birth, grade data, and custom patterns you define. Alerts fire before sensitive data leaves your district. Live test field in Settings to verify pattern matching.
+- **Data Loss Prevention (DLP)** -- Scans outbound email AND Google Drive documents for SSNs, credit card numbers, dates of birth, grade data, and custom patterns you define. Alerts fire before sensitive data leaves your district. Live test field in Settings to verify pattern matching.
+- **Drive Content Scanning** -- When a Google Doc, Sheet, or Slide is shared externally, K-12 Sentinel exports the document text and runs DLP scanning automatically. Catches sensitive data inside documents, not just email.
+- **Email Attachment Scanning** -- Scans attachment contents (PDFs, Word docs, spreadsheets, images with OCR) for DLP violations and phishing links. All processing happens on your server.
+- **Phishing Email Quarantine** -- When a phishing mass send is detected, admins can click one button to trash those messages from every recipient's inbox across the district. Admin-approved, not automatic — you stay in control.
 - **OAuth App Governance** -- See every third-party app granted access to your district's Google accounts. Risk scoring flags apps with broad permissions (Gmail read, Drive write). New "Apps" page to review, approve, or block apps across the domain. Scans automatically every 6 hours.
 - **Student Safety Signals** -- Detects self-harm, cyberbullying, and violence threats in student email. Optional local LLM improves accuracy. Alerts route to counselors, IT, or both — configurable per district. Privacy-first: no email content stored, all processing on your server, feature defaults to OFF until you enable it.
 - **Daily/Weekly Digest Reports** -- Scheduled summary emails with trend data: high-risk events, investigations, mass email activity, top risky users, new country logins, remediation actions. Delivered as chat message + full HTML email. Configure frequency and recipients in Settings.
@@ -355,7 +358,10 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | Case management (5 resolution statuses + notes) | Yes | Yes | Yes |
 | Alert follow-up notifications | Yes | Yes | Yes |
 | AI phishing classification (local LLM, no cloud dependency) | Yes | Yes | Yes |
+| Phishing email quarantine (admin-triggered) | Yes | Yes | Yes |
 | Data Loss Prevention (SSN, credit card, FERPA, custom rules) | Yes | Yes | Yes |
+| Drive content scanning (DLP on shared documents) | Yes | Yes | Yes |
+| Email attachment scanning (PDF, Office, images with OCR) | Yes | Yes | Yes |
 | OAuth app governance (risk scoring, approve/block) | Yes | Yes | Yes |
 | Student safety signals (self-harm, bullying, violence) | Yes | Yes | Yes |
 | Daily/weekly digest reports (chat + HTML email) | Yes | Yes | Yes |
