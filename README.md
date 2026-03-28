@@ -29,8 +29,13 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Case Management** -- Mark investigations as Open, Contained, False Positive, Escalated, or Resolved with notes. False positive feedback reinforces per-user geo learning. Full audit trail. Investigation Center shows resolution status badges, filter by status, and dashboard counts.
 - **Alert Follow-Ups** -- Containment actions and status changes send follow-up notifications to all configured alert channels
 - **Mass Email Content Scanning** -- When a mass send is detected, samples message bodies and runs hybrid phishing classification: heuristic analysis (URL reputation, domain spoofing, urgency patterns, credential harvesting) with optional local LLM escalation. Alerts arrive pre-classified as phishing, spam, legitimate bulk, or inconclusive. **All AI processing happens on your server** — no email content ever leaves your network.
+- **Data Loss Prevention (DLP)** -- Scans outbound email for SSNs, credit card numbers, dates of birth, grade data, and custom patterns you define. Alerts fire before sensitive data leaves your district. Live test field in Settings to verify pattern matching.
+- **OAuth App Governance** -- See every third-party app granted access to your district's Google accounts. Risk scoring flags apps with broad permissions (Gmail read, Drive write). New "Apps" page to review, approve, or block apps across the domain. Scans automatically every 6 hours.
+- **Student Safety Signals** -- Detects self-harm, cyberbullying, and violence threats in student email. Optional local LLM improves accuracy. Alerts route to counselors, IT, or both — configurable per district. Privacy-first: no email content stored, all processing on your server, feature defaults to OFF until you enable it.
+- **Daily/Weekly Digest Reports** -- Scheduled summary emails with trend data: high-risk events, investigations, mass email activity, top risky users, new country logins, remediation actions. Delivered as chat message + full HTML email. Configure frequency and recipients in Settings.
+- **Automated Incident Reports (PDF)** -- One-click PDF generation from any investigation. Professional reports with executive summary, timeline, findings, remediation log — auto-generated and emailed when cases are resolved or escalated. Ready for insurance claims, legal, and board reporting.
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
-- **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, and investigation finding thresholds through the UI — no restarts needed
+- **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, DLP sensitivity, and investigation finding thresholds through the UI — no restarts needed
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
 - **Trend Analytics** -- Daily risk trends, top risky countries/users, and risk distribution charts
 - **Bulk Actions** -- CSV export, report generation, and email list copy for incident response
@@ -204,7 +209,7 @@ The setup wizard handles all configuration for you. Here's what each step sets u
 | **Alert Channels** | Where security alerts go — Google Chat, Slack, Teams, and/or email (SMTP). Optional AI phishing classification with bundled Ollama. |
 | **Networking** | How users reach the dashboard — automatic HTTPS (Caddy), existing reverse proxy (Traefik), or HTTP for testing |
 
-**After deployment, you can tune detection thresholds** (risk scoring, mass send limits, investigation triggers) through the **Settings page** in the dashboard — no config files or restarts needed.
+**After deployment, configure everything else through the Settings page** in the dashboard — no config files or restarts needed. This includes: risk scoring thresholds, mass send limits, AI phishing classification (LLM endpoint), DLP patterns and custom rules, OAuth app governance, digest report scheduling, and student safety signals.
 
 <details>
 <summary><strong>Environment Variable Reference</strong> — for advanced users who need to edit .env manually</summary>
@@ -271,6 +276,11 @@ Admin users can tune all detection thresholds through the Settings page (gear ic
 | **Country Whitelist** | District-level whitelisted countries (default: US). Logins from whitelisted countries skip the 80-point international penalty. Per-user geo learning auto-whitelists after 3+ logins in 90 days. |
 | **Mass Send Detection** | Staff recipients/hr (100), staff messages/hr (200), student recipients/hr (25), student messages/hr (50) |
 | **Investigation Findings** | External/internal email thresholds per role, bounceback thresholds per role |
+| **AI Phishing Classification** | LLM endpoint, model, API key — configure local Ollama or any OpenAI-compatible endpoint |
+| **Data Loss Prevention** | Toggle built-in patterns (SSN, credit card, DOB, GPA), add custom regex rules, set sensitivity thresholds, test patterns with sample text |
+| **OAuth App Governance** | Enable/disable, scan frequency (1-24 hours), manage known educational apps list |
+| **Digest Reports** | Frequency (daily/weekly/both/off), send time, day of week, additional email recipients |
+| **Student Safety Signals** | Master enable/disable (default: off), category toggles (self-harm, bullying, violence), sample size, alert destination (IT/counselor/both), counselor webhook/email |
 
 A "Reset to Defaults" button restores all values to the built-in defaults. If no settings have been configured, the system uses defaults out of the box.
 
@@ -344,6 +354,12 @@ K-12 Sentinel works with **all Google Workspace for Education editions**, includ
 | One-click account containment (9 actions) | Yes | Yes | Yes |
 | Case management (5 resolution statuses + notes) | Yes | Yes | Yes |
 | Alert follow-up notifications | Yes | Yes | Yes |
+| AI phishing classification (local LLM, no cloud dependency) | Yes | Yes | Yes |
+| Data Loss Prevention (SSN, credit card, FERPA, custom rules) | Yes | Yes | Yes |
+| OAuth app governance (risk scoring, approve/block) | Yes | Yes | Yes |
+| Student safety signals (self-harm, bullying, violence) | Yes | Yes | Yes |
+| Daily/weekly digest reports (chat + HTML email) | Yes | Yes | Yes |
+| Automated PDF incident reports | Yes | Yes | Yes |
 | Admin Settings page | Yes | Yes | Yes |
 
 > **Note on device info:** Device type and OS version are populated by Google primarily for mobile and tablet logins. Desktop browser logins may not include this information regardless of edition. When unavailable, these fields are simply blank -- all other alert details still appear.
