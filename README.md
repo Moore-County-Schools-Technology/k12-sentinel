@@ -160,11 +160,25 @@ Navigate to **APIs & Services > Library** and enable:
 https://www.googleapis.com/auth/admin.reports.audit.readonly,
 https://www.googleapis.com/auth/admin.directory.user.readonly,
 https://www.googleapis.com/auth/admin.directory.orgunit.readonly,
-https://www.googleapis.com/auth/gmail.readonly,
+https://www.googleapis.com/auth/gmail.modify,
 https://www.googleapis.com/auth/gmail.settings.basic,
 https://www.googleapis.com/auth/gmail.settings.sharing,
-https://www.googleapis.com/auth/admin.directory.user.security
+https://www.googleapis.com/auth/admin.directory.user.security,
+https://www.googleapis.com/auth/drive.readonly
 ```
+
+| Scope | Why it's needed |
+|-------|-----------------|
+| `admin.reports.audit.readonly` | Reads login events, Gmail delivery logs, and admin audit events from the Reports API. This is the core data source for all monitoring. |
+| `admin.directory.user.readonly` | Looks up user profiles, org units, and 2FA enrollment status for risk context and user detail pages. |
+| `admin.directory.orgunit.readonly` | Resolves organizational unit paths so staff/student classification and org-based filtering work correctly. |
+| `gmail.modify` | Powers phishing quarantine — moves confirmed phishing emails to trash across recipient inboxes. Also used to read message samples for content scanning. |
+| `gmail.settings.basic` | Reads and removes mail forwarding addresses and POP/IMAP settings during account containment. Detects suspicious auto-forwarding rules during investigations. |
+| `gmail.settings.sharing` | Reads and removes mail delegates (send-as permissions) during containment. Detects unauthorized delegate additions during investigations. |
+| `admin.directory.user.security` | Revokes user sessions, app passwords, and third-party OAuth tokens during containment. Powers OAuth app governance scanning. |
+| `drive.readonly` | Exports Google Docs, Sheets, and Slides text for DLP scanning when documents are shared externally. Also checks recent Drive sharing activity during investigations. |
+
+> **Important:** All scopes must be authorized together. If any scope is missing from the domain-wide delegation, the service account authentication will fail for **all** API calls — not just the missing feature.
 
 6. Click **Authorize**
 
