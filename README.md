@@ -319,7 +319,7 @@ When triggered, the system **samples message bodies** and runs hybrid content cl
 1. **Heuristic analysis** (always) -- phishing domains, URL mismatches, urgency language, credential harvesting, risky attachments
 2. **LLM escalation** (optional) -- if heuristics are inconclusive and `LLM_ENDPOINT` is configured, sends samples to a local model for classification
 
-Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `content unclear`. No LLM required -- heuristics alone are useful.
+Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `content unclear`. Emails classified as legitimate bulk are logged for audit but do not trigger push notifications — only phishing, spam, and inconclusive classifications notify. No LLM required -- heuristics alone are useful.
 
 **AI classification runs 100% on your server.** Email content is analyzed by a local AI model — no student data, email bodies, or alert details are ever sent to OpenAI, Google, Anthropic, or any external service. The model runs on your hardware, in your network, behind your firewall. There is zero cloud AI dependency.
 
