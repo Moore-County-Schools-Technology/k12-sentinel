@@ -20,7 +20,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Country Whitelist & Geo Learning** -- District-level country whitelist (admin-configurable) plus per-user learning that auto-whitelists countries after 3+ logins in 90 days
 - **Brute Force Detection** -- Immediate alerts for 3+ failed logins from different IPs followed by a successful login from a new IP
 - **High-Confidence Signal Alerts** -- Instant alerts for Google-confirmed compromises and Google's `is_suspicious` flag — no investigation delay
-- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email. Alerts include device type, OS, authentication method, and subject lines for mass-send events
+- **Automated Alerts** -- Notifications via Slack, Microsoft Teams, Google Chat, or email. Google Chat alerts use rich Cards v2 with severity-coded headers (Critical/High/Warning/Info), Eastern Time timestamps, per-alert-type detail sections (IP, ISP, VPN, device, DLP patterns, breach details, mass email counts), clickable dashboard links, and text truncation safety
 - **Automated Investigations** -- Auto-triggered forensic analysis of Gmail activity, Drive shares, account changes, and bouncebacks on high-risk events
 - **Investigation Timeline** -- Unified chronological view stitching login events, findings, email activity, admin audit events, and remediation actions into a single narrative with category filtering
 - **Inline Email Analysis** -- See top subject lines, recipient breakdown (internal vs external), hourly volume chart, and sample recipients directly in investigations — no need to visit Google Admin Console
