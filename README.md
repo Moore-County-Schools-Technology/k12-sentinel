@@ -1,6 +1,6 @@
 # K-12 Sentinel
 
-> **Initial NCET Beta Release (Free just for NC Districts)**
+> **Initial NCET Beta Release (Free for NC Districts for a Limited Time)**
 
 > **BETA DISCLAIMER:** K-12 Sentinel is in active beta development. While we strive for accuracy, all alerts, risk scores, AI classifications, DLP detections, and safety assessments should be independently verified before taking action. This software is provided as-is with no warranty. Do not rely solely on K-12 Sentinel for security or compliance decisions — always confirm findings through your Google Admin Console and established district procedures.
 
