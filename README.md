@@ -154,50 +154,7 @@ Navigate to **APIs & Services > Library** and enable:
 2. Navigate to **Security > Access and data control > API controls > Domain-wide delegation**
 3. Click **Add new**
 4. Paste the service account's **Client ID**
-5. Add OAuth scopes. K-12 Sentinel uses **tiered scopes** — only the Core tier is required. Optional tiers enable additional features and can be added later without downtime.
-
-**Core (required)** — login monitoring, risk scoring, dashboard, alerts, investigations:
-
-```
-https://www.googleapis.com/auth/admin.reports.audit.readonly,
-https://www.googleapis.com/auth/admin.directory.user.readonly,
-https://www.googleapis.com/auth/admin.directory.orgunit.readonly
-```
-
-**Gmail (optional)** — content scanning, phishing quarantine, forwarding/delegate detection, containment of mail settings:
-
-```
-https://www.googleapis.com/auth/gmail.modify,
-https://www.googleapis.com/auth/gmail.settings.basic,
-https://www.googleapis.com/auth/gmail.settings.sharing
-```
-
-**Security (optional)** — session revocation, OAuth token revocation, app password revocation, account suspend/unsuspend, password reset, OAuth app governance:
-
-```
-https://www.googleapis.com/auth/admin.directory.user.security
-```
-
-**Drive (optional)** — DLP scanning on externally shared Google Docs, Sheets, and Slides:
-
-```
-https://www.googleapis.com/auth/drive.readonly
-```
-
-To enable all features, add all scopes comma-separated. To start minimal, add only the Core scopes — the system detects which tiers are authorized and disables unavailable features gracefully.
-
-| Scope | Tier | Why it's needed |
-|-------|------|-----------------|
-| `admin.reports.audit.readonly` | Core | Reads login events, Gmail delivery logs, and admin audit events from the Reports API. Core data source for all monitoring. |
-| `admin.directory.user.readonly` | Core | Looks up user profiles, org units, and 2FA enrollment status for risk context and user detail pages. |
-| `admin.directory.orgunit.readonly` | Core | Resolves organizational unit paths so staff/student classification and org-based filtering work correctly. |
-| `gmail.modify` | Gmail | Powers phishing quarantine — moves confirmed phishing emails to trash across recipient inboxes. Also reads message samples for content scanning. |
-| `gmail.settings.basic` | Gmail | Reads and removes mail forwarding addresses and POP/IMAP settings during account containment. Detects suspicious auto-forwarding rules. |
-| `gmail.settings.sharing` | Gmail | Reads and removes mail delegates (send-as permissions) during containment. Detects unauthorized delegate additions. |
-| `admin.directory.user.security` | Security | Revokes user sessions, app passwords, and third-party OAuth tokens during containment. Powers OAuth app governance. Required for account suspend/unsuspend and password reset. |
-| `drive.readonly` | Drive | Exports Google Docs, Sheets, and Slides text for DLP scanning when documents are shared externally. |
-
-> **Scope status:** After startup, check `GET /api/health/scopes` to see which tiers are active. The backend logs which scope groups are available on every restart.
+5. Add the OAuth scopes from the [Google APIs & Scopes](#google-apis--scopes) section below. To enable all features, paste all scopes comma-separated. To start minimal, add only the Core tier scopes.
 
 6. Click **Authorize**
 
@@ -368,6 +325,66 @@ Alerts arrive pre-classified: `PHISHING`, `Spam`, `likely legitimate`, or `conte
   docker compose exec sentinel-ollama ollama pull llama3.1:8b
   ```
 - You can also point to any existing OpenAI-compatible endpoint instead
+
+---
+
+## Google APIs & Scopes
+
+K-12 Sentinel uses Google's Admin SDK and Workspace APIs via domain-wide delegation. Scopes are organized into tiers — only the **Core** tier is required. Optional tiers unlock additional features and can be added at any time without downtime. The system auto-detects which scopes are authorized and disables unavailable features gracefully.
+
+### Scope Tiers
+
+**Core (required)** — login monitoring, risk scoring, dashboard, alerts, investigations:
+
+```
+https://www.googleapis.com/auth/admin.reports.audit.readonly,
+https://www.googleapis.com/auth/admin.directory.user.readonly,
+https://www.googleapis.com/auth/admin.directory.orgunit.readonly
+```
+
+**Gmail (optional)** — content scanning, phishing quarantine, forwarding/delegate detection, containment of mail settings:
+
+```
+https://www.googleapis.com/auth/gmail.modify,
+https://www.googleapis.com/auth/gmail.settings.basic,
+https://www.googleapis.com/auth/gmail.settings.sharing
+```
+
+**Security (optional)** — session revocation, OAuth token revocation, app password revocation, account suspend/unsuspend, password reset, OAuth app governance:
+
+```
+https://www.googleapis.com/auth/admin.directory.user.security
+```
+
+**Drive (optional)** — DLP scanning on externally shared Google Docs, Sheets, and Slides:
+
+```
+https://www.googleapis.com/auth/drive.readonly
+```
+
+### Why Each Scope Is Needed
+
+| Scope | Tier | What it does |
+|-------|------|--------------|
+| `admin.reports.audit.readonly` | Core | Reads login events, Gmail delivery logs, and admin audit events from the Reports API. This is the primary data source for all monitoring, investigation, and alerting. |
+| `admin.directory.user.readonly` | Core | Looks up user profiles, org unit membership, and 2FA enrollment status. Used for user detail pages, risk context, and the user directory. |
+| `admin.directory.orgunit.readonly` | Core | Resolves organizational unit paths so staff/student classification and org-based filtering work correctly. |
+| `gmail.modify` | Gmail | Powers phishing quarantine — moves confirmed phishing emails to trash across all recipient inboxes. Also reads message samples for mass email content scanning and AI phishing classification. |
+| `gmail.settings.basic` | Gmail | Reads and removes mail forwarding addresses and POP/IMAP settings during account containment. Detects suspicious auto-forwarding rules during investigations. |
+| `gmail.settings.sharing` | Gmail | Reads and removes mail delegates (send-as permissions) during containment. Detects unauthorized delegate additions during investigations. |
+| `admin.directory.user.security` | Security | Revokes user sessions, app passwords, and third-party OAuth tokens during containment. Powers OAuth app governance scanning across the domain. Also required for account suspend/unsuspend and password reset. |
+| `drive.readonly` | Drive | Exports Google Docs, Sheets, and Slides content for DLP scanning when documents are shared externally. Catches sensitive data (SSNs, credit cards, grades) before it leaves the district. |
+
+### Google APIs Used
+
+| API | Purpose |
+|-----|---------|
+| **Admin SDK Reports API** | Login event ingestion, Gmail delivery logs, admin audit events (recovery email changes, 2FA enrollment, delegate additions) |
+| **Admin SDK Directory API** | User profile lookup, org unit resolution, 2FA status, user security actions (suspend, reset password, revoke sessions/tokens) |
+| **Gmail API** | Message content sampling for phishing classification, phishing email quarantine (trash), forwarding/delegate/filter management during containment |
+| **Google Drive API** | Document export for DLP scanning when Docs/Sheets/Slides are shared externally |
+
+> **Scope status:** After startup, check `GET /api/health/scopes` to see which tiers are active. The backend logs which scope groups are available on every restart.
 
 ---
 
