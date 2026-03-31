@@ -41,7 +41,7 @@ K-12 Sentinel monitors Google Workspace login events in real time, detects compr
 - **Daily/Weekly Digest Reports** -- Scheduled summary emails with trend data: high-risk events, investigations, mass email activity, top risky users, new country logins, remediation actions. Delivered as chat message + full HTML email. Configure frequency and recipients in Settings.
 - **Automated Incident Reports (PDF)** -- One-click PDF generation from any investigation. Professional reports with executive summary, timeline, findings, remediation log — auto-generated and emailed when cases are resolved or escalated. Ready for insurance claims, legal, and board reporting.
 - **Role-Based Alert Thresholds** -- Staff and student accounts have different mass-send detection thresholds to reduce false positives
-- **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, DLP sensitivity, and investigation finding thresholds through the UI — no restarts needed
+- **Configurable Thresholds** -- Admin-only Settings page to tune risk scoring, mass send detection, DLP sensitivity, investigation finding thresholds, email domains, alert channels, geo-fence, and investigation behavior through the UI — no restarts needed
 - **Watchlist** -- Pin users for enhanced monitoring regardless of risk score
 - **Trend Analytics** -- Daily risk trends, top risky countries/users, and risk distribution charts
 - **Bulk Actions** -- CSV export, report generation, and email list copy for incident response
@@ -248,7 +248,7 @@ The setup wizard handles all configuration for you. Here's what each step sets u
 | **Alert Channels** | Where security alerts go — Google Chat, Slack, Teams, and/or email (SMTP). Optional AI phishing classification with bundled Ollama. |
 | **Networking** | How users reach the dashboard — automatic HTTPS (Caddy), existing reverse proxy (Traefik), or HTTP for testing |
 
-**After deployment, configure everything else through the Settings page** in the dashboard — no config files or restarts needed. This includes: risk scoring thresholds, mass send limits, AI phishing classification (LLM endpoint), DLP patterns and custom rules, OAuth app governance, digest report scheduling, and student safety signals.
+**After deployment, configure everything else through the Settings page** in the dashboard — no config files or restarts needed. This includes: email domains (staff vs student), alert channels (Slack/Teams/Google Chat/Email with full SMTP config), geo-fence (lat/lng/radius/timezone), investigation settings, risk scoring thresholds, mass send limits, AI phishing classification (LLM endpoint), DLP patterns and custom rules, OAuth app governance, digest report scheduling, and student safety signals.
 
 <details>
 <summary><strong>Environment Variable Reference</strong> — for advanced users who need to edit .env manually</summary>
@@ -311,6 +311,10 @@ Admin users can tune all detection thresholds through the Settings page (gear ic
 
 | Section | Settings |
 |---------|----------|
+| **Email Domains** | Staff and student email domains — determines internal vs external classification and role-based thresholds |
+| **Alert Channels** | Enable Slack, Teams, Google Chat, Email; configure webhook URLs and full SMTP credentials |
+| **Geo-Fence** | District center (lat/lng), radius in miles, timezone |
+| **Investigation Settings** | Default investigation window (hours), max concurrent investigations |
 | **Risk Scoring** | Alert threshold (70), auto-investigation threshold (60), high risk cutoff (60), medium risk cutoff (30) |
 | **Country Whitelist** | District-level whitelisted countries (default: US). Logins from whitelisted countries skip the 80-point international penalty. Per-user geo learning auto-whitelists after 3+ logins in 90 days. |
 | **Mass Send Detection** | Staff recipients/hr (100), staff messages/hr (200), student recipients/hr (25), student messages/hr (50) |
